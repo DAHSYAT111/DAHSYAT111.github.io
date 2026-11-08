@@ -1,0 +1,968 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LET'S — Personal Digital Portfolio</title>
+  <meta name="description" content="LET'S - Personal portfolio covering technology, programming, networking, gaming, and digital creativity.">
+  <meta name="theme-color" content="#080811">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #080811;
+      --surface: #10101d;
+      --surface2: #151527;
+      --purple: #9b5cff;
+      --cyan: #00e5ff;
+      --text: #f3f0ff;
+      --muted: #9995ad;
+      --border: rgba(155,92,255,.22);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(155,92,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,92,255,.035) 1px, transparent 1px);
+      background-size: 45px 45px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
+
+    .glow {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      filter: blur(130px);
+      opacity: .13;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .glow.one {
+      background: var(--purple);
+      top: 10%;
+      left: -180px;
+    }
+
+    .glow.two {
+      background: var(--cyan);
+      right: -200px;
+      top: 55%;
+    }
+
+    /* NAVBAR */
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(8,8,17,.83);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: var(--purple);
+      text-shadow: 0 0 15px var(--purple);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 13px;
+      transition: .3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cyan);
+    }
+
+    .menu-btn {
+      display: none;
+      background: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* GENERAL */
+
+    section {
+      padding: 110px 0;
+    }
+
+    .section-label {
+      color: var(--cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.3;
+      margin-bottom: 18px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 600px;
+      font-size: 14px;
+    }
+
+    .accent {
+      color: var(--purple);
+    }
+
+    /* HERO */
+
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 130px;
+    }
+
+    .hero-content {
+      max-width: 780px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      background: rgba(155,92,255,.08);
+      border-radius: 30px;
+      padding: 7px 15px;
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #48ff9b;
+      box-shadow: 0 0 12px #48ff9b;
+    }
+
+    .hero-content h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(45px, 9vw, 88px);
+      line-height: 1.15;
+      letter-spacing: -3px;
+    }
+
+    .hero-content h1 span {
+      color: var(--purple);
+      text-shadow: 0 0 30px rgba(155,92,255,.5);
+    }
+
+    .hero-subtitle {
+      color: var(--cyan);
+      font-size: clamp(14px, 2vw, 18px);
+      margin: 20px 0;
+      letter-spacing: 2px;
+    }
+
+    .hero-description {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 570px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 23px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .3s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(110deg, #853dff, #5b7cff);
+      box-shadow: 0 0 22px rgba(155,92,255,.25);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--cyan);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 25px rgba(0,229,255,.2);
+    }
+
+    .scroll-hint {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 75px;
+      letter-spacing: 2px;
+    }
+
+    /* ABOUT */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 55px;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 17px;
+    }
+
+    .terminal {
+      background: #0d0d18;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0,0,0,.25);
+    }
+
+    .terminal-top {
+      padding: 13px 17px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 7px;
+    }
+
+    .terminal-top i {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ff5f57;
+    }
+
+    .terminal-top i:nth-child(2) {
+      background: #febc2e;
+    }
+
+    .terminal-top i:nth-child(3) {
+      background: #28c840;
+    }
+
+    .terminal-body {
+      padding: 25px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .terminal-body .command {
+      color: var(--cyan);
+    }
+
+    .terminal-body .output {
+      color: #a8ffbe;
+    }
+
+    /* SKILLS */
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .skill-card {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: linear-gradient(145deg, #121221, #0b0b15);
+      transition: .3s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--cyan);
+      box-shadow: 0 10px 35px rgba(0,229,255,.08);
+    }
+
+    .skill-icon {
+      font-size: 27px;
+      margin-bottom: 14px;
+    }
+
+    .skill-card h3 {
+      font-size: 16px;
+      margin-bottom: 9px;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* PROJECTS */
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 40px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: .3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--purple);
+    }
+
+    .project-visual {
+      min-height: 155px;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(155,92,255,.25), transparent 40%),
+        linear-gradient(135deg, #15152b, #0b0b16);
+      display: grid;
+      place-items: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 27px;
+      color: var(--cyan);
+      letter-spacing: 3px;
+    }
+
+    .project-info {
+      padding: 24px;
+    }
+
+    .project-info h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .project-info p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 17px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      font-size: 10px;
+      border-radius: 4px;
+      color: var(--cyan);
+      background: rgba(0,229,255,.08);
+      border: 1px solid rgba(0,229,255,.15);
+    }
+
+    .project-link {
+      display: inline-block;
+      margin-top: 17px;
+      color: var(--purple);
+      font-size: 12px;
+    }
+
+    /* CONTACT */
+
+    .contact-box {
+      margin-top: 35px;
+      padding: 55px 25px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: radial-gradient(circle at center, rgba(155,92,255,.12), transparent 70%);
+    }
+
+    .contact-box h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(22px, 4vw, 34px);
+      margin-bottom: 14px;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 25px 0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer-content strong {
+      color: var(--purple);
+    }
+
+    /* REVEAL ANIMATION */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 760px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 76px;
+        left: 0;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: #0c0c17;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 5%;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 85px 0;
+      }
+
+      .hero-content h1 {
+        letter-spacing: -2px;
+      }
+
+      .scroll-hint {
+        margin-top: 50px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav class="container">
+      <a href="#home" class="logo">LET'S<span>.</span></a>
+
+      <button class="menu-btn" id="menuBtn"
+        aria-label="Buka navigasi"
+        aria-expanded="false">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="home">
+      <div class="container">
+        <div class="hero-content reveal">
+
+          <div class="status">
+            <span class="status-dot"></span>
+            DIGITAL CREATOR / TECH ENTHUSIAST
+          </div>
+
+          <h1>
+            HELLO,<br>
+            I'M <span>LET'S.</span>
+          </h1>
+
+          <div class="hero-subtitle">
+            TECH · GAMING · CREATIVITY
+          </div>
+
+          <p class="hero-description">
+            Exploring technology, building digital projects,
+            learning new things, and turning ideas into reality.
+            Welcome to my digital space.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              Explore Projects →
+            </a>
+
+            <a href="#about" class="btn btn-outline">
+              Discover More
+            </a>
+          </div>
+
+          <div class="scroll-hint">
+            SCROLL TO EXPLORE ↓
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container reveal">
+
+        <div class="section-label">// 01 — ABOUT ME</div>
+        <h2 class="section-title">
+          Beyond The <span class="accent">Screen.</span>
+        </h2>
+
+        <div class="about-grid">
+
+          <div class="about-text">
+            <p>
+              Hello! I'm Let's, a technology enthusiast who enjoys
+              exploring the digital world.
+            </p>
+
+            <p>
+              My interests include computer networking, web development,
+              operating systems, gaming, and digital content creation.
+            </p>
+
+            <p>
+              I believe every project is an opportunity to learn.
+              I don't just want to use technology — I want to understand
+              how it works and create something with it.
+            </p>
+
+            <p>
+              This website is a collection of my learning journey,
+              experiments, and digital creations.
+            </p>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-top">
+              <i></i><i></i><i></i>
+            </div>
+
+            <div class="terminal-body">
+              <div class="command">let user = "Let's";</div>
+              <div class="command">let interests = [</div>
+              <div class="output">&nbsp; "Technology",</div>
+              <div class="output">&nbsp; "Networking",</div>
+              <div class="output">&nbsp; "Programming",</div>
+              <div class="output">&nbsp; "Gaming",</div>
+              <div class="output">&nbsp; "Creativity"</div>
+              <div class="command">];</div>
+              <br>
+              <div class="output">Status: Always Learning_</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="container reveal">
+
+        <div class="section-label">// 02 — EXPERTISE</div>
+        <h2 class="section-title">
+          My <span class="accent">Interests.</span>
+        </h2>
+
+        <p class="section-desc">
+          Areas I explore and continue developing through practice
+          and personal projects.
+        </p>
+
+        <div class="skills-grid">
+
+          <div class="skill-card">
+            <div class="skill-icon">🌐</div>
+            <h3>Networking</h3>
+            <p>
+              Network configuration, IP addressing,
+              routing, MikroTik, and Cisco Packet Tracer.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">💻</div>
+            <h3>Web Development</h3>
+            <p>
+              Building websites using HTML, CSS,
+              JavaScript, and responsive layouts.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">🐧</div>
+            <h3>Operating Systems</h3>
+            <p>
+              Exploring Linux, Debian, Windows,
+              terminal commands, and system administration.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">🎮</div>
+            <h3>Gaming</h3>
+            <p>
+              Gaming experiences, game exploration,
+              and digital entertainment.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">🎬</div>
+            <h3>Content Creation</h3>
+            <p>
+              Exploring video editing, YouTube,
+              streaming, and digital storytelling.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">🎨</div>
+            <h3>Digital Design</h3>
+            <p>
+              Exploring graphic design, visual identity,
+              and creative digital projects.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container reveal">
+
+        <div class="section-label">// 03 — MY WORK</div>
+        <h2 class="section-title">
+          Featured <span class="accent">Projects.</span>
+        </h2>
+
+        <p class="section-desc">
+          A selection of experiments, learning projects,
+          and creations from my digital journey.
+        </p>
+
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-visual">01 / WEB</div>
+            <div class="project-info">
+              <h3>SiPiketSmart</h3>
+              <p>
+                A school duty management concept designed
+                to organize daily activities and student records.
+              </p>
+              <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">Web Design</span>
+                <span class="tag">Firebase</span>
+              </div>
+              <span class="project-link">Learning Project</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual">02 / LINUX</div>
+            <div class="project-info">
+              <h3>Debian Linux</h3>
+              <p>
+                A Linux learning journey covering installation,
+                terminal commands, and basic server exploration.
+              </p>
+              <div class="tags">
+                <span class="tag">Debian</span>
+                <span class="tag">Linux</span>
+                <span class="tag">Terminal</span>
+              </div>
+              <span class="project-link">Learning Project</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual">03 / NETWORK</div>
+            <div class="project-info">
+              <h3>Network Laboratory</h3>
+              <p>
+                Networking experiments involving IP addressing,
+                routing, DHCP, and network simulations.
+              </p>
+              <div class="tags">
+                <span class="tag">Cisco</span>
+                <span class="tag">MikroTik</span>
+                <span class="tag">Networking</span>
+              </div>
+              <span class="project-link">Learning Project</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual">04 / CREATIVE</div>
+            <div class="project-info">
+              <h3>Digital Content</h3>
+              <p>
+                Exploring technology, gaming,
+                video editing, and entertainment content.
+              </p>
+              <div class="tags">
+                <span class="tag">YouTube</span>
+                <span class="tag">Editing</span>
+                <span class="tag">Creative</span>
+              </div>
+              <span class="project-link">Creative Journey</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container reveal">
+
+        <div class="section-label">// 04 — GET IN TOUCH</div>
+        <h2 class="section-title">
+          Let's <span class="accent">Connect.</span>
+        </h2>
+
+        <div class="contact-box">
+          <h3>HAVE AN IDEA?</h3>
+
+          <p>
+            Interested in technology, creative projects,
+            or just want to connect? Find me on GitHub.
+          </p>
+
+          <a
+            href="https://github.com/DAHSYAT111"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary">
+            Visit My GitHub →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-content">
+      <span>© <span id="year"></span> <strong>LET'S.</strong> All rights reserved.</span>
+      <span>Designed & Built with curiosity.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    menuBtn.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBtn.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // Close menu after clicking a link
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    // Automatic copyright year
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // Reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12
+    });
+
+    document.querySelectorAll(".reveal").forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+
+</body>
+</html>
