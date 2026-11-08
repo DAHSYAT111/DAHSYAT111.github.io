@@ -1,968 +1,1469 @@
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>LET'S — Personal Digital Portfolio</title>
-  <meta name="description" content="LET'S - Personal portfolio covering technology, programming, networking, gaming, and digital creativity.">
-  <meta name="theme-color" content="#080811">
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-    :root {
-      --bg: #080811;
-      --surface: #10101d;
-      --surface2: #151527;
-      --purple: #9b5cff;
-      --cyan: #00e5ff;
-      --text: #f3f0ff;
-      --muted: #9995ad;
-      --border: rgba(155,92,255,.22);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 90px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      line-height: 1.7;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(155,92,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(155,92,255,.035) 1px, transparent 1px);
-      background-size: 45px 45px;
-      mask-image: linear-gradient(to bottom, black, transparent 85%);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font: inherit;
-    }
-
-    .container {
-      width: min(1120px, 90%);
-      margin: auto;
-    }
-
-    .glow {
-      position: fixed;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      filter: blur(130px);
-      opacity: .13;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .glow.one {
-      background: var(--purple);
-      top: 10%;
-      left: -180px;
-    }
-
-    .glow.two {
-      background: var(--cyan);
-      right: -200px;
-      top: 55%;
-    }
-
-    /* NAVBAR */
-
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      background: rgba(8,8,17,.83);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav {
-      height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
-
-    .logo span {
-      color: var(--purple);
-      text-shadow: 0 0 15px var(--purple);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      font-size: 13px;
-      transition: .3s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--cyan);
-    }
-
-    .menu-btn {
-      display: none;
-      background: none;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    /* GENERAL */
-
-    section {
-      padding: 110px 0;
-    }
-
-    .section-label {
-      color: var(--cyan);
-      font-family: 'Orbitron', sans-serif;
-      font-size: 11px;
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(26px, 4vw, 38px);
-      line-height: 1.3;
-      margin-bottom: 18px;
-    }
-
-    .section-desc {
-      color: var(--muted);
-      max-width: 600px;
-      font-size: 14px;
-    }
-
-    .accent {
-      color: var(--purple);
-    }
-
-    /* HERO */
-
-    #home {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 130px;
-    }
-
-    .hero-content {
-      max-width: 780px;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--border);
-      background: rgba(155,92,255,.08);
-      border-radius: 30px;
-      padding: 7px 15px;
-      color: var(--cyan);
-      font-size: 11px;
-      letter-spacing: 1px;
-      margin-bottom: 28px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #48ff9b;
-      box-shadow: 0 0 12px #48ff9b;
-    }
-
-    .hero-content h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(45px, 9vw, 88px);
-      line-height: 1.15;
-      letter-spacing: -3px;
-    }
-
-    .hero-content h1 span {
-      color: var(--purple);
-      text-shadow: 0 0 30px rgba(155,92,255,.5);
-    }
-
-    .hero-subtitle {
-      color: var(--cyan);
-      font-size: clamp(14px, 2vw, 18px);
-      margin: 20px 0;
-      letter-spacing: 2px;
-    }
-
-    .hero-description {
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 570px;
-      margin-bottom: 32px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 23px;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: .3s;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      color: white;
-      background: linear-gradient(110deg, #853dff, #5b7cff);
-      box-shadow: 0 0 22px rgba(155,92,255,.25);
-    }
-
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: var(--cyan);
-    }
-
-    .btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 25px rgba(0,229,255,.2);
-    }
-
-    .scroll-hint {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 75px;
-      letter-spacing: 2px;
-    }
-
-    /* ABOUT */
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 55px;
-      align-items: center;
-      margin-top: 40px;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 17px;
-    }
-
-    .terminal {
-      background: #0d0d18;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0,0,0,.25);
-    }
-
-    .terminal-top {
-      padding: 13px 17px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 7px;
-    }
-
-    .terminal-top i {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #ff5f57;
-    }
-
-    .terminal-top i:nth-child(2) {
-      background: #febc2e;
-    }
-
-    .terminal-top i:nth-child(3) {
-      background: #28c840;
-    }
-
-    .terminal-body {
-      padding: 25px;
-      font-family: monospace;
-      font-size: 13px;
-      line-height: 2;
-    }
-
-    .terminal-body .command {
-      color: var(--cyan);
-    }
-
-    .terminal-body .output {
-      color: #a8ffbe;
-    }
-
-    /* SKILLS */
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 40px;
-    }
-
-    .skill-card {
-      padding: 27px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: linear-gradient(145deg, #121221, #0b0b15);
-      transition: .3s;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--cyan);
-      box-shadow: 0 10px 35px rgba(0,229,255,.08);
-    }
-
-    .skill-icon {
-      font-size: 27px;
-      margin-bottom: 14px;
-    }
-
-    .skill-card h3 {
-      font-size: 16px;
-      margin-bottom: 9px;
-    }
-
-    .skill-card p {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* PROJECTS */
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-      margin-top: 40px;
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: .3s;
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--purple);
-    }
-
-    .project-visual {
-      min-height: 155px;
-      background:
-        radial-gradient(circle at 70% 20%, rgba(155,92,255,.25), transparent 40%),
-        linear-gradient(135deg, #15152b, #0b0b16);
-      display: grid;
-      place-items: center;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 27px;
-      color: var(--cyan);
-      letter-spacing: 3px;
-    }
-
-    .project-info {
-      padding: 24px;
-    }
-
-    .project-info h3 {
-      font-size: 17px;
-      margin-bottom: 10px;
-    }
-
-    .project-info p {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 17px;
-    }
-
-    .tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      padding: 4px 10px;
-      font-size: 10px;
-      border-radius: 4px;
-      color: var(--cyan);
-      background: rgba(0,229,255,.08);
-      border: 1px solid rgba(0,229,255,.15);
-    }
-
-    .project-link {
-      display: inline-block;
-      margin-top: 17px;
-      color: var(--purple);
-      font-size: 12px;
-    }
-
-    /* CONTACT */
-
-    .contact-box {
-      margin-top: 35px;
-      padding: 55px 25px;
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: radial-gradient(circle at center, rgba(155,92,255,.12), transparent 70%);
-    }
-
-    .contact-box h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(22px, 4vw, 34px);
-      margin-bottom: 14px;
-    }
-
-    .contact-box p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 25px 0;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .footer-content strong {
-      color: var(--purple);
-    }
-
-    /* REVEAL ANIMATION */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(25px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-
-    .reveal.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width: 760px) {
-      .menu-btn {
-        display: block;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 76px;
-        left: 0;
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-        background: #0c0c17;
-        border-bottom: 1px solid var(--border);
-        padding: 12px 5%;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links a {
-        display: block;
-        width: 100%;
-        padding: 12px 0;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-
-      .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 85px 0;
-      }
-
-      .hero-content h1 {
-        letter-spacing: -2px;
-      }
-
-      .scroll-hint {
-        margin-top: 50px;
-      }
-    }
-
-    @media (max-width: 440px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-actions .btn {
-        width: 100%;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="glow one"></div>
-  <div class="glow two"></div>
-
-  <!-- NAVIGATION -->
-  <header>
-    <nav class="container">
-      <a href="#home" class="logo">LET'S<span>.</span></a>
-
-      <button class="menu-btn" id="menuBtn"
-        aria-label="Buka navigasi"
-        aria-expanded="false">☰</button>
-
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-
-    <!-- HERO -->
-    <section id="home">
-      <div class="container">
-        <div class="hero-content reveal">
-
-          <div class="status">
-            <span class="status-dot"></span>
-            DIGITAL CREATOR / TECH ENTHUSIAST
-          </div>
-
-          <h1>
-            HELLO,<br>
-            I'M <span>LET'S.</span>
-          </h1>
-
-          <div class="hero-subtitle">
-            TECH · GAMING · CREATIVITY
-          </div>
-
-          <p class="hero-description">
-            Exploring technology, building digital projects,
-            learning new things, and turning ideas into reality.
-            Welcome to my digital space.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">
-              Explore Projects →
-            </a>
-
-            <a href="#about" class="btn btn-outline">
-              Discover More
-            </a>
-          </div>
-
-          <div class="scroll-hint">
-            SCROLL TO EXPLORE ↓
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="container reveal">
-
-        <div class="section-label">// 01 — ABOUT ME</div>
-        <h2 class="section-title">
-          Beyond The <span class="accent">Screen.</span>
-        </h2>
-
-        <div class="about-grid">
-
-          <div class="about-text">
-            <p>
-              Hello! I'm Let's, a technology enthusiast who enjoys
-              exploring the digital world.
-            </p>
-
-            <p>
-              My interests include computer networking, web development,
-              operating systems, gaming, and digital content creation.
-            </p>
-
-            <p>
-              I believe every project is an opportunity to learn.
-              I don't just want to use technology — I want to understand
-              how it works and create something with it.
-            </p>
-
-            <p>
-              This website is a collection of my learning journey,
-              experiments, and digital creations.
-            </p>
-          </div>
-
-          <div class="terminal">
-            <div class="terminal-top">
-              <i></i><i></i><i></i>
-            </div>
-
-            <div class="terminal-body">
-              <div class="command">let user = "Let's";</div>
-              <div class="command">let interests = [</div>
-              <div class="output">&nbsp; "Technology",</div>
-              <div class="output">&nbsp; "Networking",</div>
-              <div class="output">&nbsp; "Programming",</div>
-              <div class="output">&nbsp; "Gaming",</div>
-              <div class="output">&nbsp; "Creativity"</div>
-              <div class="command">];</div>
-              <br>
-              <div class="output">Status: Always Learning_</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="container reveal">
-
-        <div class="section-label">// 02 — EXPERTISE</div>
-        <h2 class="section-title">
-          My <span class="accent">Interests.</span>
-        </h2>
-
-        <p class="section-desc">
-          Areas I explore and continue developing through practice
-          and personal projects.
-        </p>
-
-        <div class="skills-grid">
-
-          <div class="skill-card">
-            <div class="skill-icon">🌐</div>
-            <h3>Networking</h3>
-            <p>
-              Network configuration, IP addressing,
-              routing, MikroTik, and Cisco Packet Tracer.
-            </p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon">💻</div>
-            <h3>Web Development</h3>
-            <p>
-              Building websites using HTML, CSS,
-              JavaScript, and responsive layouts.
-            </p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon">🐧</div>
-            <h3>Operating Systems</h3>
-            <p>
-              Exploring Linux, Debian, Windows,
-              terminal commands, and system administration.
-            </p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon">🎮</div>
-            <h3>Gaming</h3>
-            <p>
-              Gaming experiences, game exploration,
-              and digital entertainment.
-            </p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon">🎬</div>
-            <h3>Content Creation</h3>
-            <p>
-              Exploring video editing, YouTube,
-              streaming, and digital storytelling.
-            </p>
-          </div>
-
-          <div class="skill-card">
-            <div class="skill-icon">🎨</div>
-            <h3>Digital Design</h3>
-            <p>
-              Exploring graphic design, visual identity,
-              and creative digital projects.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projects">
-      <div class="container reveal">
-
-        <div class="section-label">// 03 — MY WORK</div>
-        <h2 class="section-title">
-          Featured <span class="accent">Projects.</span>
-        </h2>
-
-        <p class="section-desc">
-          A selection of experiments, learning projects,
-          and creations from my digital journey.
-        </p>
-
-        <div class="projects-grid">
-
-          <article class="project-card">
-            <div class="project-visual">01 / WEB</div>
-            <div class="project-info">
-              <h3>SiPiketSmart</h3>
-              <p>
-                A school duty management concept designed
-                to organize daily activities and student records.
-              </p>
-              <div class="tags">
-                <span class="tag">HTML</span>
-                <span class="tag">Web Design</span>
-                <span class="tag">Firebase</span>
-              </div>
-              <span class="project-link">Learning Project</span>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-visual">02 / LINUX</div>
-            <div class="project-info">
-              <h3>Debian Linux</h3>
-              <p>
-                A Linux learning journey covering installation,
-                terminal commands, and basic server exploration.
-              </p>
-              <div class="tags">
-                <span class="tag">Debian</span>
-                <span class="tag">Linux</span>
-                <span class="tag">Terminal</span>
-              </div>
-              <span class="project-link">Learning Project</span>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-visual">03 / NETWORK</div>
-            <div class="project-info">
-              <h3>Network Laboratory</h3>
-              <p>
-                Networking experiments involving IP addressing,
-                routing, DHCP, and network simulations.
-              </p>
-              <div class="tags">
-                <span class="tag">Cisco</span>
-                <span class="tag">MikroTik</span>
-                <span class="tag">Networking</span>
-              </div>
-              <span class="project-link">Learning Project</span>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-visual">04 / CREATIVE</div>
-            <div class="project-info">
-              <h3>Digital Content</h3>
-              <p>
-                Exploring technology, gaming,
-                video editing, and entertainment content.
-              </p>
-              <div class="tags">
-                <span class="tag">YouTube</span>
-                <span class="tag">Editing</span>
-                <span class="tag">Creative</span>
-              </div>
-              <span class="project-link">Creative Journey</span>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="container reveal">
-
-        <div class="section-label">// 04 — GET IN TOUCH</div>
-        <h2 class="section-title">
-          Let's <span class="accent">Connect.</span>
-        </h2>
-
-        <div class="contact-box">
-          <h3>HAVE AN IDEA?</h3>
-
-          <p>
-            Interested in technology, creative projects,
-            or just want to connect? Find me on GitHub.
-          </p>
-
-          <a
-            href="https://github.com/DAHSYAT111"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary">
-            Visit My GitHub →
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container footer-content">
-      <span>© <span id="year"></span> <strong>LET'S.</strong> All rights reserved.</span>
-      <span>Designed & Built with curiosity.</span>
-    </div>
-  </footer>
-
-  <script>
-    // Mobile navigation
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
-
-    menuBtn.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("open");
-      menuBtn.setAttribute("aria-expanded", isOpen);
-      menuBtn.textContent = isOpen ? "✕" : "☰";
-    });
-
-    // Close menu after clicking a link
-    document.querySelectorAll(".nav-links a").forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      });
-    });
-
-    // Automatic copyright year
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    // Reveal animation
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-          observer.unobserve(entry.target);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landung Widhanto - Interactive Portfolio | TKJ Student & Web Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#131e32',
+                            900: '#0F172A',
+                            950: '#090D16',
+                        },
+                        brand: {
+                            orange: '#FF7A00',
+                            'orange-hover': '#E06C00',
+                            blue: '#38BDF8',
+                            green: '#4ADE80',
+                            red: '#EF4444',
+                            amber: '#F59E0B',
+                            purple: '#A855F7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
         }
-      });
-    }, {
-      threshold: 0.12
-    });
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
 
-    document.querySelectorAll(".reveal").forEach(element => {
-      observer.observe(element);
-    });
-  </script>
+        /* Glassmorphism Styling */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-4px);
+            background: rgba(30, 41, 59, 0.85);
+            border-color: rgba(255, 122, 0, 0.35);
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255, 122, 0, 0.15);
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Glow Utility */
+        .orange-glow {
+            box-shadow: 0 0 25px rgba(255, 122, 0, 0.4);
+        }
+
+        .orange-glow:hover {
+            box-shadow: 0 0 35px rgba(255, 122, 0, 0.6);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF7A00;
+        }
+
+        .terminal-scroll::-webkit-scrollbar {
+            height: 4px;
+            width: 4px;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-100 selection:bg-brand-orange selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Sticky Glass Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Active Status Indicator -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-orange to-amber-600 flex items-center justify-center font-mono font-bold text-lg text-white shadow-lg transition-transform group-hover:scale-105">
+                        LW.
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold tracking-tight text-white group-hover:text-brand-orange transition-colors">LANDUNG WIDHANTO</span>
+                            <!-- Online Status Dot -->
+                            <span class="relative flex h-2.5 w-2.5" title="Status: Online & Ready for Collaboration">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-green"></span>
+                            </span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400 block">TKJ Student @ SMKN 2 Sragen</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="text-slate-300 hover:text-brand-orange transition-colors">Tentang</a>
+                    <a href="#skills" class="text-slate-300 hover:text-brand-orange transition-colors">Keahlian</a>
+                    <a href="#projects" class="text-slate-300 hover:text-brand-orange transition-colors">Proyek</a>
+                    <a href="#speaking-media" class="text-slate-300 hover:text-brand-orange transition-colors">Media & Speaker</a>
+                    <a href="#terminal" class="text-slate-300 hover:text-brand-orange transition-colors font-mono text-xs bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-700 hover:border-brand-orange"><i class="fa-solid fa-terminal text-brand-blue mr-1"></i> CLI Terminal</a>
+                </nav>
+
+                <!-- Social Links & Contact Action Header -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 mr-2 border-r border-slate-700 pr-4">
+                        <a href="https://youtube.com/@landung-s9h?si=9i2bG6wgOcODixWJ" target="_blank" rel="noopener" class="text-slate-400 hover:text-brand-red transition-colors text-lg" title="YouTube Channel">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@landng928?_r=1&_t=ZS-9BEliIaNfpx" target="_blank" rel="noopener" class="text-slate-400 hover:text-cyan-400 transition-colors text-lg" title="TikTok Profile">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="https://www.instagram.com/landung5000?dlrf=MTN6Z3Z5ejkycG9vNg==" target="_blank" rel="noopener" class="text-slate-400 hover:text-pink-400 transition-colors text-lg" title="Instagram Profile">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                    <a href="#contact" class="px-5 py-2.5 rounded-xl bg-brand-orange text-white font-medium text-sm orange-glow hover:bg-brand-orange-hover transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Resume & Kontak</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden">
+                    <button id="mobile-menu-btn" type="button" class="text-slate-300 hover:text-white p-2 rounded-lg focus:outline-none" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-slate-800 px-4 pt-3 pb-6 space-y-3">
+            <a href="#about" class="mobile-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-brand-orange">Tentang</a>
+            <a href="#skills" class="mobile-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-brand-orange">Keahlian</a>
+            <a href="#projects" class="mobile-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-brand-orange">Proyek</a>
+            <a href="#speaking-media" class="mobile-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-brand-orange">Media & Speaker</a>
+            <a href="#terminal" class="mobile-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800 hover:text-brand-orange font-mono text-xs">Simulasi CLI Terminal</a>
+            
+            <div class="flex items-center justify-around py-3 border-t border-b border-slate-800">
+                <a href="https://youtube.com/@landung-s9h?si=9i2bG6wgOcODixWJ" target="_blank" rel="noopener" class="text-slate-300 hover:text-brand-red text-xl">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://www.tiktok.com/@landng928?_r=1&_t=ZS-9BEliIaNfpx" target="_blank" rel="noopener" class="text-slate-300 hover:text-cyan-400 text-xl">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <a href="https://www.instagram.com/landung5000?dlrf=MTN6Z3Z5ejkycG9vNg==" target="_blank" rel="noopener" class="text-slate-300 hover:text-pink-400 text-xl">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <a href="#contact" class="mobile-link block px-3 py-2.5 rounded-lg bg-brand-orange text-white text-center font-medium mt-2">
+                <i class="fa-regular fa-paper-plane mr-2"></i>Resume & Kontak
+            </a>
+        </div>
+    </header>
+
+    <main class="relative">
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+            <!-- 3D WebGL Canvas Container -->
+            <div id="canvas-container" class="absolute inset-0 z-0 pointer-events-auto"></div>
+
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/70 to-slate-900 z-1 pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
+                
+                <!-- Category Badges -->
+                <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-6 px-4 py-2 rounded-full glass-card border-slate-700/60 shadow-xl">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-blue/10 text-brand-blue border border-brand-blue/30">
+                        <i class="fa-solid fa-network-wired text-xs"></i> Networking & Systems
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-green/10 text-brand-green border border-brand-green/30">
+                        <i class="fa-solid fa-code text-xs"></i> Web Builder
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-red/10 text-brand-red border border-brand-red/30">
+                        <i class="fa-solid fa-film text-xs"></i> Video Editor
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-amber/10 text-brand-amber border border-brand-amber/30">
+                        <i class="fa-solid fa-microphone text-xs"></i> Public Speaker
+                    </span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-tight max-w-5xl mx-auto">
+                    TKJ Student, <span class="bg-gradient-to-r from-brand-orange via-amber-400 to-brand-green bg-clip-text text-transparent">Web Builder</span> & Media Creator
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+                    Halo! Saya <span class="text-white font-semibold">Landung Widhanto</span>, siswa SMK Teknik Komputer & Jaringan di <span class="text-brand-orange font-medium">SMKN 2 Sragen</span>. Menggabungkan arsitektur jaringan (<span class="text-brand-blue font-medium">Cisco/MikroTik/Linux</span>), pembuatan web modern, editing visual video, dan komunikasi public speaking.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-orange text-white font-semibold text-base orange-glow hover:bg-brand-orange-hover transition-all duration-300 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>Lihat Proyek</span>
+                    </a>
+                    <a href="#terminal" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card text-white hover:text-brand-orange border-slate-700 font-semibold text-base hover:border-brand-orange/50 transition-all duration-300 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-terminal text-brand-blue"></i>
+                        <span>Buka Terminal CLI</span>
+                    </a>
+                </div>
+
+                <!-- Key Metrics Bar -->
+                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="glass-card p-4 rounded-2xl border-slate-800 text-center">
+                        <div class="text-3xl font-extrabold text-brand-blue font-mono">150+</div>
+                        <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Node Jaringan</div>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-slate-800 text-center">
+                        <div class="text-3xl font-extrabold text-brand-green font-mono">12+</div>
+                        <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Web Proyek</div>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-slate-800 text-center">
+                        <div class="text-3xl font-extrabold text-brand-red font-mono">25+</div>
+                        <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Video Edited</div>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-slate-800 text-center">
+                        <div class="text-3xl font-extrabold text-brand-amber font-mono">8+</div>
+                        <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">Sesi Presentasi</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ABOUT & MULTIDISCIPLINARY PILLARS -->
+        <section id="about" class="py-20 relative bg-slate-900/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-xs font-mono font-bold tracking-widest text-brand-orange uppercase">Filosofi & Pendekatan</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">4 Pilar Keahlian Multidisiplin</p>
+                    <p class="mt-4 text-slate-400 text-base">Sebagai siswa TKJ SMKN 2 Sragen, saya percaya keahlian teknis jaringan akan semakin berdampak bila dipadukan dengan produk software web yang tangguh dan penyampaian visual yang komunikatif.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Pillar 1: Networking -->
+                    <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-blue/10 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center text-xl font-bold mb-5 border border-brand-blue/30">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-blue/10 text-brand-blue border border-brand-blue/30">Core TKJ</span>
+                        <h3 class="text-xl font-bold text-white mt-3">Networking & Linux</h3>
+                        <p class="mt-2 text-sm text-slate-300 leading-relaxed">
+                            Konfigurasi router MikroTik, pemeta VLAN Cisco, routing OSPF/BGP, serta manajemen server berbasis Debian/Ubuntu.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-xs text-slate-400 font-mono">
+                            <li><i class="fa-solid fa-check text-brand-blue mr-1.5"></i> MikroTik RouterOS & WinBox</li>
+                            <li><i class="fa-solid fa-check text-brand-blue mr-1.5"></i> Cisco Packet Tracer & GNS3</li>
+                            <li><i class="fa-solid fa-check text-brand-blue mr-1.5"></i> Linux Server & SSH Config</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 2: Web Dev -->
+                    <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-green/10 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-green/20 text-brand-green flex items-center justify-center text-xl font-bold mb-5 border border-brand-green/30">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-green/10 text-brand-green border border-brand-green/30">Software</span>
+                        <h3 class="text-xl font-bold text-white mt-3">Web Development</h3>
+                        <p class="mt-2 text-sm text-slate-300 leading-relaxed">
+                            Membangun aplikasi web modern yang responsif, interaktif, serta aman dengan clean code dan integrasi API.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-xs text-slate-400 font-mono">
+                            <li><i class="fa-solid fa-check text-brand-green mr-1.5"></i> HTML5, CSS3, Tailwind CSS</li>
+                            <li><i class="fa-solid fa-check text-brand-green mr-1.5"></i> JavaScript ES6+ & React</li>
+                            <li><i class="fa-solid fa-check text-brand-green mr-1.5"></i> PHP, MySQL & REST APIs</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 3: Media Editing -->
+                    <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-red/10 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-red/20 text-brand-red flex items-center justify-center text-xl font-bold mb-5 border border-brand-red/30">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-red/10 text-brand-red border border-brand-red/30">Creative</span>
+                        <h3 class="text-xl font-bold text-white mt-3">Video & Motion</h3>
+                        <p class="mt-2 text-sm text-slate-300 leading-relaxed">
+                            Penyuntingan video dokumenter, bumper motion graphics, video edukasi IT, dan dokumentasi kegiatan sekolah.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-xs text-slate-400 font-mono">
+                            <li><i class="fa-solid fa-check text-brand-red mr-1.5"></i> Adobe Premiere Pro</li>
+                            <li><i class="fa-solid fa-check text-brand-red mr-1.5"></i> After Effects Motion Graphics</li>
+                            <li><i class="fa-solid fa-check text-brand-red mr-1.5"></i> Storyboarding & Color Grading</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 4: Public Speaking -->
+                    <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-amber/10 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+                        <div class="w-12 h-12 rounded-xl bg-brand-amber/20 text-brand-amber flex items-center justify-center text-xl font-bold mb-5 border border-brand-amber/30">
+                            <i class="fa-solid fa-microphone-lines"></i>
+                        </div>
+                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-amber/10 text-brand-amber border border-brand-amber/30">Communication</span>
+                        <h3 class="text-xl font-bold text-white mt-3">Public Speaking</h3>
+                        <p class="mt-2 text-sm text-slate-300 leading-relaxed">
+                            Keahlian membawakan presentasi teknis, pemateri workshop komputasi, MC acara jurusan, serta pitch karya.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-xs text-slate-400 font-mono">
+                            <li><i class="fa-solid fa-check text-brand-amber mr-1.5"></i> Technical Workshop Presenter</li>
+                            <li><i class="fa-solid fa-check text-brand-amber mr-1.5"></i> Slide Deck Storytelling</li>
+                            <li><i class="fa-solid fa-check text-brand-amber mr-1.5"></i> Project Pitching & Q&A</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS GRID -->
+        <section id="skills" class="py-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <h2 class="text-xs font-mono font-bold tracking-widest text-brand-orange uppercase">Kompetensi Teknis</h2>
+                        <p class="mt-2 text-3xl font-extrabold text-white">Skill Matrix & Toolset</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 font-mono text-xs text-slate-400">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-blue mr-1"></span> IT & Net
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-green ml-3 mr-1"></span> Web Dev
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-red ml-3 mr-1"></span> Media
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-amber ml-3 mr-1"></span> Speaking
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Skill 1 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-blue">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Cisco Networking & Routing</h4>
+                                <p class="text-xs text-slate-400">Subnetting, VLSM, VLAN, Trunking, OSPF</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-blue/20 text-brand-blue border border-brand-blue/30">Networking</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-blue h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Packet Tracer</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">OSPF Protocol</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Inter-VLAN</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 2 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-blue">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">MikroTik RouterOS Administration</h4>
+                                <p class="text-xs text-slate-400">Bandwidth Management, Firewall NAT, Hotspot</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-blue/20 text-brand-blue border border-brand-blue/30">Networking</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-blue h-2 rounded-full" style="width: 92%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Queue Tree</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">WinBox</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">PPPoE Server</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 3 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-blue">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Linux Server Debian/Ubuntu</h4>
+                                <p class="text-xs text-slate-400">DNS (Bind9), DHCP, Web Server (Nginx/Apache), SSH</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-blue/20 text-brand-blue border border-brand-blue/30">Networking</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-blue h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Debian 11/12</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">UFW Firewall</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Shell Scripting</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 4 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-green">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Modern Front-End Web</h4>
+                                <p class="text-xs text-slate-400">Tailwind CSS, JavaScript ES6+, Responsive Layouts</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-green/20 text-brand-green border border-brand-green/30">Web Dev</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-green h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">HTML5/CSS3</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Tailwind</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">DOM Manipulation</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 5 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-green">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Back-End & Database</h4>
+                                <p class="text-xs text-slate-400">PHP Native, MySQL, Node.js Basics, RESTful API</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-green/20 text-brand-green border border-brand-green/30">Web Dev</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-green h-2 rounded-full" style="width: 80%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">PHP 8</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">MySQL/MariaDB</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">JSON APIs</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 6 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-red">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Video Editing & Motion</h4>
+                                <p class="text-xs text-slate-400">Premiere Pro, After Effects Keyframing, Audio Mixing</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-red/20 text-brand-red border border-brand-red/30">Media</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 mb-3">
+                            <div class="bg-brand-red h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-3">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Premiere Pro</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">After Effects</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">CapCut Pro</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill 7 -->
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-l-brand-amber md:col-span-2 lg:col-span-3">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Public Speaking & Presentasi Teknis</h4>
+                                <p class="text-xs text-slate-400">Penyampaian materi workshop komputasi, demonstrasi produk, pitching tugas akhir</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-brand-amber/20 text-brand-amber border border-brand-amber/30">Public Speaking</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-xs">
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <div class="font-semibold text-brand-amber mb-1"><i class="fa-solid fa-chalkboard-user mr-1"></i> Workshop Facilitation</div>
+                                <span class="text-slate-400">Memandu workshop dasar Linux &amp; Networking untuk siswa tingkat pertama SMK.</span>
+                            </div>
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <div class="font-semibold text-brand-amber mb-1"><i class="fa-solid fa-file-powerpoint mr-1"></i> Slide Deck Design</div>
+                                <span class="text-slate-400">Merancang slide presentasi visual dan minimalis yang mempermudah pemahaman topik rumit.</span>
+                            </div>
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <div class="font-semibold text-brand-amber mb-1"><i class="fa-solid fa-comments mr-1"></i> Live Demo & Q&A</div>
+                                <span class="text-slate-400">Penyampaian demo langsung konfigurasi router & deployment tanpa gerigi panggung.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE SHOWCASE / PROJECT PORTFOLIO -->
+        <section id="projects" class="py-20 relative bg-slate-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-xs font-mono font-bold tracking-widest text-brand-orange uppercase">Karya & Implementasi</h2>
+                    <p class="mt-2 text-3xl font-extrabold text-white">Showcase Proyek Interaktif</p>
+                    <p class="mt-3 text-slate-400 text-sm">Filter dan klik setiap proyek untuk melihat spesifikasi detail, topologi, dan teknologi yang digunakan oleh Landung Widhanto.</p>
+                </div>
+
+                <!-- Tab Filter Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-12">
+                    <button class="project-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-brand-orange text-white orange-glow" data-filter="all">
+                        <i class="fa-solid fa-border-all mr-1.5"></i>Semua Proyek
+                    </button>
+                    <button class="project-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-slate-300 hover:text-white hover:border-brand-blue" data-filter="networking">
+                        <i class="fa-solid fa-network-wired mr-1.5 text-brand-blue"></i>Networking & Linux
+                    </button>
+                    <button class="project-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-slate-300 hover:text-white hover:border-brand-green" data-filter="web">
+                        <i class="fa-solid fa-code mr-1.5 text-brand-green"></i>Web Applications
+                    </button>
+                    <button class="project-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-slate-300 hover:text-white hover:border-brand-red" data-filter="media">
+                        <i class="fa-solid fa-film mr-1.5 text-brand-red"></i>Video & Media
+                    </button>
+                </div>
+
+                <!-- Projects Grid -->
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Project 1 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="networking">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#38BDF8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-blue/20 text-brand-blue mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-blue/40 shadow-lg">
+                                    <i class="fa-solid fa-diagram-project"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-blue bg-slate-900/90 px-3 py-1 rounded-full border border-brand-blue/30">Cisco Packet Tracer Topology</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-blue/20 text-brand-blue border border-brand-blue/30 uppercase">Networking</span>
+                                    <span class="text-xs font-mono text-slate-400">SMKN 2 Sragen Lab</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Perancangan Topologi Jaringan Multi-VLAN & OSPF</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Desain arsitektur jaringan skala gedung sekolah 3 lantai menggunakan Cisco Packet Tracer dengan implementasi Inter-VLAN Routing, OSPF, dan DHCP Relay.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">Cisco</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">OSPF</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">VLAN</span>
+                                </div>
+                                <button onclick="openProjectModal(1)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="web">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#4ADE80_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-green/20 text-brand-green mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-green/40 shadow-lg">
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-green bg-slate-900/90 px-3 py-1 rounded-full border border-brand-green/30">Full-Stack Web App</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-green/20 text-brand-green border border-brand-green/30 uppercase">Web Dev</span>
+                                    <span class="text-xs font-mono text-slate-400">Sistem Laboratorium</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Sistem Manajemen & Presensi Lab TKJ Online</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Aplikasi berbasis web untuk mencatat peminjaman alat lab TKJ SMKN 2 Sragen, inventarisasi router MikroTik, dan pemantauan status ruangan.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">PHP/MySQL</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">Tailwind</span>
+                                </div>
+                                <button onclick="openProjectModal(2)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="media">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#EF4444_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-red/20 text-brand-red mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-red/40 shadow-lg">
+                                    <i class="fa-solid fa-clapperboard"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-red bg-slate-900/90 px-3 py-1 rounded-full border border-brand-red/30">Video Documentation</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-red/20 text-brand-red border border-brand-red/30 uppercase">Video Media</span>
+                                    <span class="text-xs font-mono text-slate-400">Showreel & Docu</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Video Profil Jurusan & Tutorial Networking 4K</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Seri video tutorial edukatif tentang cara setting router MikroTik bagi pemula serta video sinematik dokumentasi kegiatan Teaching Factory TKJ.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">Premiere Pro</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">After Effects</span>
+                                </div>
+                                <button onclick="openProjectModal(3)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="networking">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#38BDF8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-blue/20 text-brand-blue mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-blue/40 shadow-lg">
+                                    <i class="fa-solid fa-terminal"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-blue bg-slate-900/90 px-3 py-1 rounded-full border border-brand-blue/30">Linux Debian Server</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-blue/20 text-brand-blue border border-brand-blue/30 uppercase">Networking</span>
+                                    <span class="text-xs font-mono text-slate-400">Server Deployment</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Server Mail, Web, & DNS Debian 11 Minimal</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Implementasi server lokal berbasis Debian CLI tanpa GUI dengan konfigurasi Bind9, Postfix/Dovecot Webmail, Nginx SSL, serta monitoring SNMP.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">Debian 11</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">Bind9</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">Nginx</span>
+                                </div>
+                                <button onclick="openProjectModal(4)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="web">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#4ADE80_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-green/20 text-brand-green mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-green/40 shadow-lg">
+                                    <i class="fa-solid fa-gamepad"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-green bg-slate-900/90 px-3 py-1 rounded-full border border-brand-green/30">Interactive Web Tool</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-green/20 text-brand-green border border-brand-green/30 uppercase">Web Dev</span>
+                                    <span class="text-xs font-mono text-slate-400">Gamification</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Web Simulator Subnetting & IP Calculator</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Aplikasi web interaktif untuk melatih kemampuan kalkulasi subnetting IPv4 (CIDR /24 - /30) dengan kuis cepat dan scoring real-time.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">JavaScript ES6</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">Canvas</span>
+                                </div>
+                                <button onclick="openProjectModal(5)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="project-card glass-card glass-card-hover rounded-2xl overflow-hidden flex flex-col" data-category="media">
+                        <div class="h-48 bg-slate-950 relative flex items-center justify-center overflow-hidden border-b border-slate-800 group">
+                            <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="relative z-10 text-center p-4">
+                                <div class="w-16 h-16 rounded-2xl bg-brand-amber/20 text-brand-amber mx-auto flex items-center justify-center text-3xl mb-2 border border-brand-amber/40 shadow-lg">
+                                    <i class="fa-solid fa-users-viewfinder"></i>
+                                </div>
+                                <span class="font-mono text-xs text-brand-amber bg-slate-900/90 px-3 py-1 rounded-full border border-brand-amber/30">Workshop & Talk</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-amber/20 text-brand-amber border border-brand-amber/30 uppercase">Public Speaking</span>
+                                    <span class="text-xs font-mono text-slate-400">Tech Seminar</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-white hover:text-brand-orange transition-colors">Workshop "Internet Security & NetAdmin Basics"</h3>
+                                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                                    Menjadi narasumber utama dalam seminar siswa internal yang membahas tentang keamanan kata sandi, Phishing awareness, dan konfigurasi Wi-Fi aman.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="text-[11px] font-mono text-slate-400">Speaker</span> • 
+                                    <span class="text-[11px] font-mono text-slate-400">Deck Design</span>
+                                </div>
+                                <button onclick="openProjectModal(6)" class="text-xs font-semibold text-brand-orange hover:text-amber-400 flex items-center gap-1">
+                                    Detail <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MEDIA & PUBLIC SPEAKING SHOWCASE -->
+        <section id="speaking-media" class="py-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Left Column -->
+                    <div>
+                        <h2 class="text-xs font-mono font-bold tracking-widest text-brand-red uppercase">Creative Showcase</h2>
+                        <h3 class="mt-2 text-3xl font-extrabold text-white">Video Editing Showreel & Visual Content</h3>
+                        <p class="mt-4 text-slate-300 text-sm leading-relaxed">
+                            Landung Widhanto mengombinasikan pemahaman teknis IT dengan estetika visual. Memproduksi konten edukasi teknologi yang mudah dicerna, rekapan acara SMKN 2 Sragen, serta bumper animasi motion graphics.
+                        </p>
+
+                        <div class="mt-6 space-y-4">
+                            <div class="flex items-start gap-4 p-4 rounded-xl glass-card border-slate-800">
+                                <div class="w-10 h-10 rounded-lg bg-brand-red/20 text-brand-red flex items-center justify-center text-lg shrink-0">
+                                    <i class="fa-solid fa-scissors"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Precision Pacing & Sound Design</h4>
+                                    <p class="text-xs text-slate-400 mt-0.5">Sinkronisasi ritme audio dengan pergerakan visual untuk mempertahankan engagement penonton.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-xl glass-card border-slate-800">
+                                <div class="w-10 h-10 rounded-lg bg-brand-red/20 text-brand-red flex items-center justify-center text-lg shrink-0">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">After Effects Motion Graphics</h4>
+                                    <p class="text-xs text-slate-400 mt-0.5">Pembuatan diagram animasi topologi jaringan dan Lower Thirds kustom.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Video Preview Card -->
+                    <div class="glass-card p-4 rounded-3xl border-slate-700 relative overflow-hidden shadow-2xl">
+                        <div class="relative aspect-video rounded-2xl bg-slate-950 overflow-hidden flex items-center justify-center group border border-slate-800">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900 to-red-950 opacity-80"></div>
+                            
+                            <div class="relative z-10 flex flex-col items-center">
+                                <button id="play-reel-btn" onclick="playVideoShowreelSim()" class="w-16 h-16 rounded-full bg-brand-red text-white flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-transform cursor-pointer orange-glow">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </button>
+                                <span class="mt-4 text-xs font-mono text-slate-300 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-700">
+                                    Klik untuk Simulasi Play Showreel 2026
+                                </span>
+                            </div>
+
+                            <div class="absolute bottom-3 left-4 right-4 flex justify-between items-center text-xs font-mono text-slate-400">
+                                <span><i class="fa-solid fa-film text-brand-red mr-1"></i> Landung_Showreel_2026.mp4</span>
+                                <span>1080p 60fps</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                            <div class="p-2 bg-slate-900/80 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block text-[10px]">SOFTWARE</span>
+                                <span class="text-white font-bold">Premiere + AE</span>
+                            </div>
+                            <div class="p-2 bg-slate-900/80 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block text-[10px]">GENRE</span>
+                                <span class="text-white font-bold">Tech & Motion</span>
+                            </div>
+                            <div class="p-2 bg-slate-900/80 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block text-[10px]">TOTAL VIEWS</span>
+                                <span class="text-brand-red font-bold">25,000+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE TERMINAL SIMULATOR (Customized for Landung Widhanto @ SMKN 2 Sragen) -->
+        <section id="terminal" class="py-20 relative bg-slate-950">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-8">
+                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-brand-blue/10 text-brand-blue border border-brand-blue/30 inline-block mb-2">
+                        <i class="fa-solid fa-terminal mr-1"></i> Interactive CLI
+                    </span>
+                    <h2 class="text-3xl font-extrabold text-white">Simulasi Linux / Router CLI</h2>
+                    <p class="text-xs text-slate-400 mt-2 font-mono">Ketik perintah atau gunakan tombol cepat untuk menjelajahi profil Landung Widhanto via terminal.</p>
+                </div>
+
+                <!-- CLI Terminal Container -->
+                <div class="glass-card rounded-2xl border border-slate-700 overflow-hidden shadow-2xl font-mono text-sm">
+                    
+                    <!-- Terminal Top Bar -->
+                    <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-xs text-slate-400 ml-2 font-semibold">landung@smkn2sragen:~</span>
+                        </div>
+                        <div class="text-xs text-slate-500">Debian/RouterOS CLI</div>
+                    </div>
+
+                    <!-- Quick Command Helper Buttons -->
+                    <div class="bg-slate-900/60 px-4 py-2 border-b border-slate-800/60 flex flex-wrap gap-2 text-xs">
+                        <span class="text-slate-400 self-center">Perintah Cepat:</span>
+                        <button onclick="runCommand('help')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-brand-blue border border-slate-700">help</button>
+                        <button onclick="runCommand('neofetch')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-brand-green border border-slate-700">neofetch</button>
+                        <button onclick="runCommand('cat bio.txt')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-brand-orange border border-slate-700">cat bio.txt</button>
+                        <button onclick="runCommand('show skills')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-brand-amber border border-slate-700">show skills</button>
+                        <button onclick="runCommand('ping 8.8.8.8')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700">ping 8.8.8.8</button>
+                        <button onclick="runCommand('clear')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700">clear</button>
+                    </div>
+
+                    <!-- Terminal Output Window -->
+                    <div id="terminal-body" class="p-5 h-80 overflow-y-auto font-mono text-xs sm:text-sm text-slate-200 leading-relaxed terminal-scroll bg-slate-950/90">
+                        <p class="text-brand-green">Terminal Interaktif Landung Widhanto (v2.6-TKJ)</p>
+                        <p class="text-slate-400">Selamat datang di terminal SMKN 2 Sragen. Ketik <span class="text-brand-orange font-bold">'help'</span> untuk melihat daftar perintah profil Landung.</p>
+                        <p class="text-slate-500 mb-4">========================================================</p>
+                    </div>
+
+                    <!-- Terminal Input Line -->
+                    <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="bg-slate-900/90 px-4 py-3 border-t border-slate-800 flex items-center gap-2">
+                        <span class="text-brand-green font-bold">landung@smkn2sragen:~$</span>
+                        <input id="terminal-input" type="text" autocomplete="off" placeholder="Ketik perintah... (misal: help)" class="flex-1 bg-transparent border-none text-slate-100 focus:outline-none font-mono text-sm">
+                        <button type="submit" class="text-xs px-3 py-1.5 rounded bg-brand-orange text-white font-mono hover:bg-brand-orange-hover">
+                            Run
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT & FOOTER SECTION -->
+        <section id="contact" class="py-20 relative bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- Left Side: Contact Information -->
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-mono bg-brand-orange/10 text-brand-orange border border-brand-orange/30 inline-block mb-3">
+                            <i class="fa-regular fa-comments mr-1"></i> Mari Berkolaborasi
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Hubungi Landung Widhanto</h2>
+                        <p class="mt-4 text-slate-300 text-sm leading-relaxed">
+                            Tertarik untuk merekrut, berkonsultasi seputar instalasi jaringan TKJ, pembuatan website modern, video editing, ataupun seminar public speaking? Silakan hubungi saya melalui form atau media sosial.
+                        </p>
+
+                        <div class="mt-8 space-y-4">
+                            <!-- Email Card -->
+                            <div class="glass-card p-4 rounded-xl flex items-center justify-between border-slate-800">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center">
+                                        <i class="fa-regular fa-envelope text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-slate-400">Email Utama</div>
+                                        <div class="text-sm font-bold text-white font-mono">bububabu4807@gmail.com</div>
+                                    </div>
+                                </div>
+                                <button onclick="copyToClipboard('bububabu4807@gmail.com')" class="px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1.5">
+                                    <i class="fa-regular fa-copy"></i>Copy
+                                </button>
+                            </div>
+
+                            <!-- Location Card -->
+                            <div class="glass-card p-4 rounded-xl flex items-center gap-3 border-slate-800">
+                                <div class="w-10 h-10 rounded-lg bg-brand-blue/20 text-brand-blue flex items-center justify-center">
+                                    <i class="fa-solid fa-school text-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-400">Institusi & Lokasi</div>
+                                    <div class="text-sm font-bold text-white">SMKN 2 Sragen, Jawa Tengah, Indonesia</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media Links -->
+                        <div class="mt-8">
+                            <div class="text-xs font-mono text-slate-400 mb-3">MEDIA SOSIAL INTERAKTIF:</div>
+                            <div class="flex flex-wrap gap-3">
+                                <a href="https://youtube.com/@landung-s9h?si=9i2bG6wgOcODixWJ" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl glass-card text-slate-300 hover:text-brand-red hover:border-brand-red flex items-center gap-2 text-sm transition-all duration-300">
+                                    <i class="fa-brands fa-youtube text-lg"></i>
+                                    <span>YouTube</span>
+                                </a>
+                                <a href="https://www.tiktok.com/@landng928?_r=1&_t=ZS-9BEliIaNfpx" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl glass-card text-slate-300 hover:text-cyan-400 hover:border-cyan-400 flex items-center gap-2 text-sm transition-all duration-300">
+                                    <i class="fa-brands fa-tiktok text-lg"></i>
+                                    <span>TikTok</span>
+                                </a>
+                                <a href="https://www.instagram.com/landung5000?dlrf=MTN6Z3Z5ejkycG9vNg==" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl glass-card text-slate-300 hover:text-pink-400 hover:border-pink-400 flex items-center gap-2 text-sm transition-all duration-300">
+                                    <i class="fa-brands fa-instagram text-lg"></i>
+                                    <span>Instagram</span>
+                                </a>
+                                <a href="https://github.com" target="_blank" rel="noopener" class="px-4 py-2 rounded-xl glass-card text-slate-300 hover:text-brand-orange hover:border-brand-orange flex items-center gap-2 text-sm transition-all duration-300">
+                                    <i class="fa-brands fa-github text-lg"></i>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Contact Form -->
+                    <div class="glass-card p-6 sm:p-8 rounded-3xl border-slate-700 shadow-2xl">
+                        <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-brand-orange"></i> Kirim Pesan Ke Landung
+                        </h3>
+                        
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <div>
+                                <label for="contact-name" class="block text-xs font-medium text-slate-300 mb-1">Nama Lengkap / Instansi</label>
+                                <input type="text" id="contact-name" required placeholder="Contoh: PT. Sragen Network" class="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange text-sm">
+                            </div>
+
+                            <div>
+                                <label for="contact-email" class="block text-xs font-medium text-slate-300 mb-1">Alamat Email Anda</label>
+                                <input type="email" id="contact-email" required placeholder="nama@domain.com" class="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange text-sm">
+                            </div>
+
+                            <div>
+                                <label for="contact-category" class="block text-xs font-medium text-slate-300 mb-1">Kategori Kolaborasi</label>
+                                <select id="contact-category" class="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white focus:outline-none focus:border-brand-orange text-sm">
+                                    <option value="networking">Instalasi / Network Architecture</option>
+                                    <option value="web">Web Development Project</option>
+                                    <option value="media">Video Editing / Content Creation</option>
+                                    <option value="speaking">Public Speaking / Workshop Invite</option>
+                                    <option value="other">Pertanyaan Umum</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="contact-message" class="block text-xs font-medium text-slate-300 mb-1">Pesan / Detail Proyek</label>
+                                <textarea id="contact-message" rows="4" required placeholder="Tuliskan kebutuhan atau pertanyaan Anda..." class="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange text-sm resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-orange text-white font-semibold text-sm orange-glow hover:bg-brand-orange-hover transition-all duration-300 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- Copyright Footer -->
+                <div class="mt-20 pt-8 border-t border-slate-800 text-center text-xs font-mono text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        © 2026 Landung Widhanto. All Rights Reserved. TKJ Student at SMKN 2 Sragen.
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-400">
+                        <span>Cisco & MikroTik</span> • 
+                        <span>Web Development</span> • 
+                        <span>Video & Speaker</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PROJECT DETAIL MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="glass-card max-w-2xl w-full rounded-3xl border-slate-700 p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative text-slate-200">
+            <button onclick="closeProjectModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800/80">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="modal-content">
+                <!-- Dynamically Injected -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // --- 1. THREE.JS 3D INTERACTIVE HERO CANVAS ---
+        let scene, camera, renderer, particles, linesMesh;
+        const particleCount = 75;
+        const particlesData = [];
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            if (!container) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 400;
+
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            const positions = new Float32Array(particleCount * 3);
+            const particleGeometry = new THREE.BufferGeometry();
+            
+            const r = 400;
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * r - r / 2;
+                const y = Math.random() * r - r / 2;
+                const z = Math.random() * r - r / 2;
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                particlesData.push({
+                    velocity: new THREE.Vector3((-1 + Math.random() * 2) * 0.5, (-1 + Math.random() * 2) * 0.5, (-1 + Math.random() * 2) * 0.5),
+                    numConnections: 0
+                });
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const pMaterial = new THREE.PointsMaterial({
+                color: 0x38BDF8,
+                size: 5,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particleGeometry, pMaterial);
+            scene.add(particles);
+
+            const linesGeometry = new THREE.BufferGeometry();
+            const linesMaterial = new THREE.LineBasicMaterial({
+                color: 0xFF7A00,
+                transparent: true,
+                opacity: 0.25
+            });
+
+            linesMesh = new THREE.LineSegments(linesGeometry, linesMaterial);
+            scene.add(linesMesh);
+
+            window.addEventListener('resize', onWindowResize);
+            document.addEventListener('mousemove', onDocumentMouseMove);
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.2;
+            mouseY = (event.clientY - windowHalfY) * 0.2;
+        }
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+
+            scene.rotation.y += (mouseX * 0.0005 - scene.rotation.y) * 0.05;
+            scene.rotation.x += (mouseY * 0.0005 - scene.rotation.x) * 0.05;
+
+            const positions = particles.geometry.attributes.position.array;
+            let linepos = 0;
+
+            const linePositions = new Float32Array(particleCount * particleCount * 3);
+
+            for (let i = 0; i < particleCount; i++) {
+                particlesData[i].numConnections = 0;
+
+                positions[i * 3] += particlesData[i].velocity.x;
+                positions[i * 3 + 1] += particlesData[i].velocity.y;
+                positions[i * 3 + 2] += particlesData[i].velocity.z;
+
+                if (positions[i * 3 + 1] < -200 || positions[i * 3 + 1] > 200) particlesData[i].velocity.y = -particlesData[i].velocity.y;
+                if (positions[i * 3] < -200 || positions[i * 3] > 200) particlesData[i].velocity.x = -particlesData[i].velocity.x;
+                if (positions[i * 3 + 2] < -200 || positions[i * 3 + 2] > 200) particlesData[i].velocity.z = -particlesData[i].velocity.z;
+
+                for (let j = i + 1; j < particleCount; j++) {
+                    const dx = positions[i * 3] - positions[j * 3];
+                    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (dist < 90) {
+                        linePositions[linepos++] = positions[i * 3];
+                        linePositions[linepos++] = positions[i * 3 + 1];
+                        linePositions[linepos++] = positions[i * 3 + 2];
+
+                        linePositions[linepos++] = positions[j * 3];
+                        linePositions[linepos++] = positions[j * 3 + 1];
+                        linePositions[linepos++] = positions[j * 3 + 2];
+                    }
+                }
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+            linesMesh.geometry.setAttribute('position', new THREE.BufferAttribute(linePositions.subarray(0, linepos), 3));
+            linesMesh.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        // --- 2. MOBILE MENU TOGGLE ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+        }
+
+        // --- 3. PROJECT FILTER TABS ---
+        const filterBtns = document.querySelectorAll('.project-tab-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-orange', 'text-white', 'orange-glow');
+                    b.classList.add('glass-card', 'text-slate-300');
+                });
+                btn.classList.add('active', 'bg-brand-orange', 'text-white', 'orange-glow');
+                btn.classList.remove('glass-card', 'text-slate-300');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // --- 4. PROJECT MODALS & DATA ---
+        const projectDetailsData = {
+            1: {
+                title: "Perancangan Topologi Jaringan Multi-VLAN & OSPF",
+                category: "Networking & Cisco Architecture",
+                badgeColor: "bg-brand-blue/20 text-brand-blue border-brand-blue/30",
+                description: "Proyek perancangan skema infrastruktur jaringan untuk kompleks gedung SMKN 2 Sragen. Mengintegrasikan pembagian departemen berbasis VLAN (Admin, Lab TKJ, Guru, Guest), DHCP Server redundancy, dan dynamic routing OSPF antar core switch.",
+                specs: [
+                    "Simulasi: Cisco Packet Tracer & GNS3",
+                    "Teknologi: Inter-VLAN Routing, Subnetting VLSM (/25 & /27), OSPF Area 0",
+                    "Fitur Tambahan: ACL (Access Control List) untuk membatasi akses antar VLAN",
+                    "Hasil: Efisiensi pengiriman paket meningkat dan pembatasan broadcast domain."
+                ]
+            },
+            2: {
+                title: "Sistem Manajemen & Presensi Lab TKJ Online",
+                category: "Web Development (Full-Stack)",
+                badgeColor: "bg-brand-green/20 text-brand-green border-brand-green/30",
+                description: "Web portal internal jurusan TKJ SMKN 2 Sragen yang digunakan oleh siswa dan instruktur untuk mendaftar penggunaan meja lab, mengecek ketersediaan router MikroTik & switch, serta modul presensi QR Code.",
+                specs: [
+                    "Tech Stack: HTML5, Tailwind CSS, JavaScript, PHP Native, MySQL",
+                    "Fitur Utama: Dashboard Inventaris, Log Aktivitas Alat, Ekspor Laporan PDF",
+                    "Keamanan: Hashing Password Argon2id & Sanitasi Input PDO",
+                    "Hasil: Dipakai secara internal oleh 120+ siswa jurusan TKJ."
+                ]
+            },
+            3: {
+                title: "Video Profil Jurusan & Tutorial Networking 4K",
+                category: "Video Editing & Motion Graphics",
+                badgeColor: "bg-brand-red/20 text-brand-red border-brand-red/30",
+                description: "Produksi seri video dokumentasi dan edukasi berdurasi 5-10 menit oleh Landung Widhanto. Mengombinasikan rekaman cinematic live-action dengan grafik animasi After Effects untuk menjelaskan konsep routing secara visual.",
+                specs: [
+                    "Perangkat Lunak: Adobe Premiere Pro, After Effects, Audition",
+                    "Visual Effect: Motion Kinetic Typography, Lower Thirds, Color Grading LUTs",
+                    "Target Distribusi: Channel YouTube & Instagram Reels",
+                    "Pencapaian: Meraih 25k+ tayangan dan dijadikan materi orientasi siswa baru."
+                ]
+            },
+            4: {
+                title: "Server Mail, Web, & DNS Debian 11 Minimal",
+                category: "Linux System Administration",
+                badgeColor: "bg-brand-blue/20 text-brand-blue border-brand-blue/30",
+                description: "Konfigurasi server linux mandiri berbasis Debian 11 versi Netinst (Non-GUI) di lingkungan virtualisasi Proxmox/VirtualBox untuk kebutuhan layanan internet lab SMKN 2 Sragen.",
+                specs: [
+                    "Service: Bind9 (Domain Server), Nginx (Web Server), Postfix + Roundcube (Webmail)",
+                    "Protokol Security: SSH Key Authentication, Fail2ban, UFW Rules",
+                    "Monitoring: Script bash cronjob pemantau penggunaan RAM & Disk Usage",
+                    "Hasil: Server berjalan lancar dengan uptime 99.9% tanpa GUI overhead."
+                ]
+            },
+            5: {
+                title: "Web Simulator Subnetting & IP Calculator",
+                category: "Interactive Web Tool",
+                badgeColor: "bg-brand-green/20 text-brand-green border-brand-green/30",
+                description: "Aplikasi alat bantu hitung IPv4 interaktif. Pengguna memasukkan IP Address & Prefix CIDR untuk secara instan menghitung Network Address, Broadcast Address, Wildcard Mask, dan Rentang IP Host.",
+                specs: [
+                    "Tech Stack: HTML, Tailwind CSS, Pure Vanilla JavaScript ES6+",
+                    "Fitur Tambahan: Mode Kuis Latihan Subnetting dengan Timer & Scoreboard",
+                    "Keunggulan: Tanpa reload halaman (Client-side fast calculation)",
+                    "Hasil: Membantu kawan-kawan sekelas belajar perhitungan IP cepat."
+                ]
+            },
+            6: {
+                title: "Workshop 'Internet Security & NetAdmin Basics'",
+                category: "Public Speaking & Event Facilitation",
+                badgeColor: "bg-brand-amber/20 text-brand-amber border-brand-amber/30",
+                description: "Sesi kelas terbuka di mana Landung Widhanto menjadi pembicara utama, menyampaikan konsep pertahanan cyber dasar, Wi-Fi hacking protection, dan tips menjadi Network Administrator muda bagi siswa junior.",
+                specs: [
+                    "Materi: Hygiene Password, Two-Factor Auth, Dasar Firewall Router",
+                    "Format Presentation: 45 Menit Slide Storytelling + 30 Menit Live Demo Setup",
+                    "Peserta: 50+ Siswa Kelas X & XI TKJ SMKN 2 Sragen",
+                    "Feedback: Rating Kepuasan 4.9/5.0 dari kuesioner peserta."
+                ]
+            }
+        };
+
+        function openProjectModal(id) {
+            const data = projectDetailsData[id];
+            if (!data) return;
+
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <span class="px-3 py-1 rounded text-xs font-mono font-bold uppercase ${data.badgeColor} border inline-block mb-3">${data.category}</span>
+                <h3 class="text-2xl font-bold text-white mb-3">${data.title}</h3>
+                <p class="text-slate-300 text-sm leading-relaxed mb-6">${data.description}</p>
+                <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 mb-6">
+                    <h4 class="text-xs font-mono font-bold text-brand-orange uppercase mb-3"><i class="fa-solid fa-list-check mr-1"></i> Spesifikasi & Highlights</h4>
+                    <ul class="space-y-2 text-xs text-slate-300 font-mono">
+                        ${data.specs.map(spec => `<li class="flex items-start gap-2"><i class="fa-solid fa-chevron-right text-brand-orange mt-0.5 text-[10px]"></i> <span>${spec}</span></li>`).join('')}
+                    </ul>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeProjectModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs font-mono">Tutup</button>
+                </div>
+            `;
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+        }
+
+        // --- 5. TERMINAL CLI SIMULATOR FOR LANDUNG WIDHANTO ---
+        const terminalOutput = document.getElementById('terminal-body');
+        const terminalInput = document.getElementById('terminal-input');
+
+        const cliCommands = {
+            'help': `Perintah yang dapat Anda jalankan di terminal Landung:
+  • <span class="text-brand-orange">profil Landung</span>  : Menampilkan profil singkat Landung Widhanto
+  • <span class="text-brand-orange">neofetch</span>        : Menampilkan info sistem & identitas Landung
+  • <span class="text-brand-orange">cat bio.txt</span>      : Membaca latar belakang & biodata lengkap
+  • <span class="text-brand-orange">show skills</span>     : Menampilkan keahlian TKJ, Web Dev, & Media
+  • <span class="text-brand-orange">ping 8.8.8.8</span>    : Simulasi tes koneksi ICMP paket internet
+  • <span class="text-brand-orange">contact</span>         : Menampilkan info email & media sosial
+  • <span class="text-brand-orange">clear</span>           : Membersihkan tampilan konsol terminal`,
+
+            'profil landung': `<span class="text-brand-green font-bold">[ PROFIL LANDUNG WIDHANTO ]</span>
+Nama      : Landung Widhanto
+Institusi : SMKN 2 Sragen (Teknik Komputer & Jaringan)
+Email     : bububabu4807@gmail.com
+Fokus     : Networking (Cisco/MikroTik/Linux), Web Dev, Video Editing, Public Speaking`,
+
+            'neofetch': `<span class="text-brand-blue">       /\       </span> <span class="text-brand-orange font-bold">landung@smkn2sragen</span>
+<span class="text-brand-blue">      /  \      </span> -------------------
+<span class="text-brand-blue">     / /\ \     </span> <span class="text-slate-400">OS:</span> Debian GNU/Linux / RouterOS
+<span class="text-brand-blue">    / /  \ \    </span> <span class="text-slate-400">Host:</span> SMKN 2 Sragen (TKJ Specialist)
+<span class="text-brand-blue">   /_/    \_\   </span> <span class="text-slate-400">Role:</span> Network Tech, Web Builder, Media Editor
+<span class="text-slate-400">Uptime:</span> 3 Years of TKJ Studies
+<span class="text-slate-400">Shell:</span> bash 5.2.15
+<span class="text-slate-400">Skills:</span> Cisco IOS, MikroTik RouterOS, HTML/CSS/Tailwind, Premiere Pro`,
+
+            'cat bio.txt': `Landung Widhanto adalah siswa SMK TKJ (Teknik Komputer & Jaringan) di SMKN 2 Sragen dengan keahlian multidisiplin di bidang Computer Networking (Cisco/MikroTik/Linux), Web Development, Video Editing, dan Public Speaking/Presentasi.`,
+
+            'show skills': `<span class="text-brand-green font-bold">[ SKILL MATRIX LANDUNG WIDHANTO ]</span>
+1. NETWORKING  : Subnetting VLSM, Cisco OSPF, MikroTik RouterOS, Debian Server
+2. WEB DEV     : HTML5, CSS3, Tailwind CSS, JavaScript ES6+, PHP & MySQL
+3. MEDIA       : Adobe Premiere Pro, After Effects, Motion Graphics, CapCut Pro
+4. SPEAKING    : Workshop Presenter, Slide Storytelling, Technical Pitching`,
+
+            'contact': `<span class="text-brand-amber font-bold">[ KONTAK & MEDIA SOSIAL LANDUNG ]</span>
+Email    : bububabu4807@gmail.com
+YouTube  : https://youtube.com/@landung-s9h
+TikTok   : https://www.tiktok.com/@landng928
+Instagram: https://www.instagram.com/landung5000`,
+
+            'ping 8.8.8.8': `PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=11.4 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=10.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=118 time=11.2 ms
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max = 10.9/11.1/11.4 ms <span class="text-brand-green">(NETWORK OK - SMKN 2 SRAGEN GATEWAY)</span>`
+        };
+
+        function runCommand(cmdText) {
+            const cleanCmd = cmdText.trim().toLowerCase();
+            
+            const promptElem = document.createElement('div');
+            promptElem.className = 'mt-2';
+            promptElem.innerHTML = `<span class="text-brand-green font-bold">landung@smkn2sragen:~$</span> <span class="text-white">${escapeHtml(cmdText)}</span>`;
+            terminalOutput.appendChild(promptElem);
+
+            if (cleanCmd === 'clear') {
+                terminalOutput.innerHTML = '';
+                return;
+            }
+
+            const responseElem = document.createElement('div');
+            responseElem.className = 'mt-1 text-slate-300 whitespace-pre-wrap';
+
+            if (cliCommands[cleanCmd]) {
+                responseElem.innerHTML = cliCommands[cleanCmd];
+            } else {
+                responseElem.innerHTML = `<span class="text-brand-red">bash: command not found: ${escapeHtml(cmdText)}</span>. Ketik <span class="text-brand-orange">'help'</span> untuk daftar perintah.`;
+            }
+
+            terminalOutput.appendChild(responseElem);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function handleTerminalSubmit(e) {
+            e.preventDefault();
+            const val = terminalInput.value;
+            if (!val) return;
+            runCommand(val);
+            terminalInput.value = '';
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // --- 6. VIDEO SHOWREEL SIMULATOR ---
+        function playVideoShowreelSim() {
+            showToast("Reel 2026 Landung Widhanto", "success");
+        }
+
+        // --- 7. FORM SUBMISSION & TOAST NOTIFICATION ---
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            showToast(`Terima kasih, ${name}! Pesan Anda telah terkirim ke Landung Widhanto.`, "success");
+            document.getElementById('contact-form').reset();
+        }
+
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast(`Email ${text} berhasil disalin!`, "info");
+        }
+
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgBorder = "bg-slate-900 border-brand-orange text-white";
+            let icon = `<i class="fa-solid fa-circle-info text-brand-orange"></i>`;
+            
+            if (type === "success") {
+                bgBorder = "bg-slate-900 border-brand-green text-white";
+                icon = `<i class="fa-solid fa-circle-check text-brand-green"></i>`;
+            }
+
+            toast.className = `glass-card pointer-events-auto p-4 rounded-xl border-l-4 ${bgBorder} shadow-2xl flex items-center gap-3 text-xs sm:text-sm font-medium transition-all duration-300 transform translate-y-4 opacity-0 max-w-md`;
+            toast.innerHTML = `<div>${icon}</div><div>${message}</div>`;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 50);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // --- 8. INIT ONLOAD ---
+        window.onload = function() {
+            initThreeJS();
+            animateThreeJS();
+        };
+    </script>
 </body>
 </html>
